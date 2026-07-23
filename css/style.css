@@ -5,23 +5,23 @@
 
 /* --- Custom Properties --- */
 :root {
-  /* Solarized-dark inspired palette */
-  --soc-bg0:    #002b36;
-  --soc-bg1:    #073642;
-  --soc-bg2:    #0a3d4a;
-  --soc-bg3:    #0f4b5a;
-  --soc-ink0:   #839496;
-  --soc-ink1:   #93a1a1;
-  --soc-ink2:   #eee8d5;
-  --soc-ink3:   #fdf6e3;
-  --soc-blue:   #268bd2;
-  --soc-cyan:   #2aa198;
-  --soc-green:  #859900;
-  --soc-orange: #cb4b16;
-  --soc-red:    #dc322f;
-  --soc-violet: #6c71c4;
-  --soc-yellow: #b58900;
-  --soc-accent: var(--soc-blue);
+  /* Black & White palette */
+  --soc-bg0:    #000000;
+  --soc-bg1:    #0d0d0d;
+  --soc-bg2:    #1a1a1a;
+  --soc-bg3:    #2a2a2a;
+  --soc-ink0:   #888888;
+  --soc-ink1:   #bbbbbb;
+  --soc-ink2:   #e0e0e0;
+  --soc-ink3:   #ffffff;
+  --soc-blue:   #cccccc;
+  --soc-cyan:   #ffffff;
+  --soc-green:  #aaaaaa;
+  --soc-orange: #999999;
+  --soc-red:    #ff4444;
+  --soc-violet: #888888;
+  --soc-yellow: #bbbbbb;
+  --soc-accent: #ffffff;
 
   /* Layout */
   --soc-max-w:  860px;
