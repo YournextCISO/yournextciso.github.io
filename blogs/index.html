@@ -33,79 +33,191 @@
     <div class="container" style="padding-top:2rem;padding-bottom:3rem;">
 
       <h1>Blog</h1>
-      <p style="color:var(--soc-ink0);margin-bottom:2rem;">Security research, tutorials, and operational guides.</p>
+      <p style="color:var(--soc-ink0);margin-bottom:2rem;">Security research, projects, and operational write-ups.</p>
 
-      <article class="card">
-        <div class="card-title"><a href="aws-incident-response-playbook.html">Building an AWS IR Playbook for Lean Teams</a></div>
-        <div class="card-meta">
-          <span>📅 15 Jul 2026</span>
-          <span>⏱ 8 min read</span>
+      <!-- Cybersecurity Projects -->
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Cybersecurity Projects</h2>
         </div>
-        <div class="card-excerpt">A practical framework for small security teams to respond to cloud compromises without enterprise tooling. Covers containment, forensics, and recovery in AWS.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">AWS</span><span class="tag">Incident Response</span><span class="tag">DFIR</span>
-        </div>
-      </article>
 
-      <article class="card">
-        <div class="card-title"><a href="iam-privilege-escalation-paths.html">Common IAM Privilege Escalation Paths (And How to Detect Them)</a></div>
-        <div class="card-meta">
-          <span>📅 28 Jun 2026</span>
-          <span>⏱ 12 min read</span>
-        </div>
-        <div class="card-excerpt">An attacker's view of AWS IAM — exploring 5 privilege escalation techniques and building CloudTrail detections for each one.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">IAM</span><span class="tag">Cloud Security</span><span class="tag">Detection</span>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/Wazuh-Lab-Series/blob/main/README.md" target="_blank" rel="noopener">Wazuh Lab Series ↪</a></div>
+          <div class="card-excerpt">A progressive series of Wazuh deployment labs — from single-node SIEM to distributed architecture with custom detection rules, active response, and threat intelligence integration.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Wazuh</span><span class="tag">SIEM</span><span class="tag">Detection</span><span class="tag">Lab</span>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="card-title"><a href="terraform-security-baseline.html">Terraform Security Baseline for Multi-Account AWS</a></div>
-        <div class="card-meta">
-          <span>📅 10 Jun 2026</span>
-          <span>⏱ 6 min read</span>
-        </div>
-        <div class="card-excerpt">How to codify security guardrails across AWS Organizations using Terraform — SCPs, Config rules, and centralized logging.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">Terraform</span><span class="tag">IaC</span><span class="tag">Hardening</span>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/SOC-AUTOMATION-LAB" target="_blank" rel="noopener">SOC Automation Lab ↪</a></div>
+          <div class="card-excerpt">End-to-end SOC automation pipeline — integrating Wazuh (detection), Shuffle (SOAR), and TheHive (case management) to automate alert triage and incident response workflows.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">SOAR</span><span class="tag">Wazuh</span><span class="tag">TheHive</span><span class="tag">Automation</span>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="card-title"><a href="detecting-llm-jailbreak.html">Detecting LLM Jailbreak Attempts in Production</a></div>
-        <div class="card-meta">
-          <span>📅 22 May 2026</span>
-          <span>⏱ 10 min read</span>
-        </div>
-        <div class="card-excerpt">Building detection rules for LLM abuse — analyzing prompt injection patterns and designing real-time guardrail monitoring.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">AI Security</span><span class="tag">Detection</span><span class="tag">LLM</span>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/SOAR-EDR-Lab" target="_blank" rel="noopener">SOAR EDR Lab ↪</a></div>
+          <div class="card-excerpt">Hands-on lab combining EDR telemetry with SOAR playbooks — deploying LimaCharlie for endpoint detection and Tines for automated response orchestration.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">SOAR</span><span class="tag">EDR</span><span class="tag">LimaCharlie</span><span class="tag">Tines</span>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="card-title"><a href="container-escape-techniques.html">Container Escape Techniques and Defenses</a></div>
-        <div class="card-meta">
-          <span>📅 05 Apr 2026</span>
-          <span>⏱ 14 min read</span>
-        </div>
-        <div class="card-excerpt">A hands-on walkthrough of common container breakout methods — privileged containers, host mounts, and kernel exploits — with mitigation strategies.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">Containers</span><span class="tag">Kubernetes</span><span class="tag">Pentesting</span>
-        </div>
-      </article>
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/Splunk-AD-LAB" target="_blank" rel="noopener">Splunk + Active Directory Lab ↪</a></div>
+          <div class="card-excerpt">Splunk Enterprise lab integrating Active Directory logs — ingesting Windows Event Logs, configuring field extractions, and building detection rules for common AD attack patterns.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Splunk</span><span class="tag">Active Directory</span><span class="tag">SIEM</span><span class="tag">Lab</span>
+          </div>
+        </article>
 
-      <article class="card">
-        <div class="card-title"><a href="okta-breach-lessons.html">Lessons from the Okta Breach: Identity Supply Chain Risks</a></div>
-        <div class="card-meta">
-          <span>📅 18 Mar 2026</span>
-          <span>⏱ 7 min read</span>
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/Windows-event-log-ART-with-ELK" target="_blank" rel="noopener">Windows Event Logs + ART with ELK ↪</a></div>
+          <div class="card-excerpt">Deploying the ELK stack to ingest and analyze Windows Event Logs using Atomic Red Team — simulating adversary techniques and building Elastic detection rules.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">ELK</span><span class="tag">Atomic Red Team</span><span class="tag">Windows</span><span class="tag">Detection</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/AZ-104-Labs" target="_blank" rel="noopener">AZ-104 Labs ↪</a></div>
+          <div class="card-excerpt">Microsoft Azure Administrator lab notes and exercises — covering identity, governance, storage, compute, networking, and monitoring in Azure.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Azure</span><span class="tag">Cloud</span><span class="tag">Administration</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/SC-200" target="_blank" rel="noopener">SC-200 Labs ↪</a></div>
+          <div class="card-excerpt">Microsoft Security Operations Analyst labs — hands-on with Microsoft Sentinel, Defender for Cloud, and KQL-based threat hunting.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Sentinel</span><span class="tag">KQL</span><span class="tag">Azure</span><span class="tag">Security</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- Walkthroughs & Investigations -->
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Walkthroughs & Investigations</h2>
         </div>
-        <div class="card-excerpt">Analyzing the Okta supply chain breach — what went wrong, how to assess your own identity provider risk, and hardening your SAML/OIDC posture.</div>
-        <div style="margin-top:0.5rem;">
-          <span class="tag">Identity</span><span class="tag">Supply Chain</span><span class="tag">Lessons Learned</span>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/HTB_SHERLOCKS" target="_blank" rel="noopener">HTB Sherlocks ↪</a></div>
+          <div class="card-excerpt">Write-ups and investigative walkthroughs for Hack The Box Sherlock challenges — covering DFIR scenarios with Splunk, Velociraptor, and Windows forensics.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">HTB</span><span class="tag">DFIR</span><span class="tag">Splunk</span><span class="tag">Forensics</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/Letsdefend-Investigations" target="_blank" rel="noopener">LetsDefend Investigations ↪</a></div>
+          <div class="card-excerpt">Real-world SOC investigation walkthroughs on the LetsDefend platform — phishing analysis, endpoint investigations, and log triage.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">SOC</span><span class="tag">Phishing</span><span class="tag">Investigation</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/Letsdefend-Challenges" target="_blank" rel="noopener">LetsDefend Challenges ↪</a></div>
+          <div class="card-excerpt">Blue team challenge solutions from LetsDefend — threat analysis, incident response scenarios, and security operations exercises.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Blue Team</span><span class="tag">Challenges</span><span class="tag">LetsDefend</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="https://github.com/YournextCISO/THM-SOC-L1" target="_blank" rel="noopener">TryHackMe SOC Level 1 ↪</a></div>
+          <div class="card-excerpt">Complete walkthrough of the TryHackMe SOC Level 1 learning path — covering network security, endpoint analysis, SIEM fundamentals, and threat detection.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">TryHackMe</span><span class="tag">SOC</span><span class="tag">Training</span>
+          </div>
+        </article>
+      </section>
+
+      <!-- Research & Articles -->
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Research & Articles</h2>
         </div>
-      </article>
+
+        <article class="card">
+          <div class="card-title"><a href="aws-incident-response-playbook.html">Building an AWS IR Playbook for Lean Teams</a></div>
+          <div class="card-meta">
+            <span>📅 15 Jul 2026</span>
+            <span>⏱ 8 min read</span>
+          </div>
+          <div class="card-excerpt">A practical framework for small security teams to respond to cloud compromises without enterprise tooling. Covers containment, forensics, and recovery in AWS.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">AWS</span><span class="tag">Incident Response</span><span class="tag">DFIR</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="iam-privilege-escalation-paths.html">Common IAM Privilege Escalation Paths (And How to Detect Them)</a></div>
+          <div class="card-meta">
+            <span>📅 28 Jun 2026</span>
+            <span>⏱ 12 min read</span>
+          </div>
+          <div class="card-excerpt">An attacker's view of AWS IAM — exploring 5 privilege escalation techniques and building CloudTrail detections for each one.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">IAM</span><span class="tag">Cloud Security</span><span class="tag">Detection</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="terraform-security-baseline.html">Terraform Security Baseline for Multi-Account AWS</a></div>
+          <div class="card-meta">
+            <span>📅 10 Jun 2026</span>
+            <span>⏱ 6 min read</span>
+          </div>
+          <div class="card-excerpt">How to codify security guardrails across AWS Organizations using Terraform — SCPs, Config rules, and centralized logging.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Terraform</span><span class="tag">IaC</span><span class="tag">Hardening</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="detecting-llm-jailbreak.html">Detecting LLM Jailbreak Attempts in Production</a></div>
+          <div class="card-meta">
+            <span>📅 22 May 2026</span>
+            <span>⏱ 10 min read</span>
+          </div>
+          <div class="card-excerpt">Building detection rules for LLM abuse — analyzing prompt injection patterns and designing real-time guardrail monitoring.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">AI Security</span><span class="tag">Detection</span><span class="tag">LLM</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="container-escape-techniques.html">Container Escape Techniques and Defenses</a></div>
+          <div class="card-meta">
+            <span>📅 05 Apr 2026</span>
+            <span>⏱ 14 min read</span>
+          </div>
+          <div class="card-excerpt">A hands-on walkthrough of common container breakout methods — privileged containers, host mounts, and kernel exploits — with mitigation strategies.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Containers</span><span class="tag">Kubernetes</span><span class="tag">Pentesting</span>
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-title"><a href="okta-breach-lessons.html">Lessons from the Okta Breach: Identity Supply Chain Risks</a></div>
+          <div class="card-meta">
+            <span>📅 18 Mar 2026</span>
+            <span>⏱ 7 min read</span>
+          </div>
+          <div class="card-excerpt">Analyzing the Okta supply chain breach — what went wrong, how to assess your own identity provider risk, and hardening your SAML/OIDC posture.</div>
+          <div style="margin-top:0.5rem;">
+            <span class="tag">Identity</span><span class="tag">Supply Chain</span><span class="tag">Lessons Learned</span>
+          </div>
+        </article>
+      </section>
 
     </div>
   </main>
@@ -116,8 +228,8 @@
       <p style="margin-top:0.5rem;">
         &copy; <span id="currentYear">2026</span> YournextCISO &mdash;
         <a href="https://github.com/YournextCISO">GitHub</a> &middot;
-        <a href="https://x.com/yournextciso">@yournextciso</a> &middot;
-        <a href="https://www.linkedin.com/">LinkedIn</a>
+        <a href="https://x.com/YournextCISO">@YournextCISO</a> &middot;
+        <a href="https://www.linkedin.com/in/ndesylvarius/">LinkedIn</a>
       </p>
     </div>
   </footer>
