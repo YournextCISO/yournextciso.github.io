@@ -1,6 +1,6 @@
 # yournextciso.github.io
 
-Personal portfolio site for **YournextCISO** — Cloud Security Engineer, Pentester, DFIR Specialist.
+Personal portfolio site for **YournextCISO** — SOC Analyst, Cloud Security, DFIR.
 
 ## 🛡️ About
 
@@ -8,23 +8,16 @@ Static HTML/CSS/JS portfolio deployed on GitHub Pages. No build step required �
 
 ## 🧬 Design
 
-Merged from analysis of two reference security portfolio sites:
-
-- **secfortress.com** — Hugo-based dark-themed blog with post cards, reading time, tags, avatar branding
-- **chicken0248.fyi** — SOC/cyberpunk aesthetic with tab navigation, dashboard layout, IR-report style project writeups
-
-The result is a **CISO Operations Dashboard** theme: dark solarized palette, tabbed navigation, investigation-report project format, and polished typography.
+SOC/Cyberpunk dashboard aesthetic with dark solarized palette, tabbed navigation, shield-style tool badges, and polished typography.
 
 ## 📁 Structure
 
 ```
-├── index.html              # Home — Operator Profile
+├── index.html              # Home — Operator Profile with blog highlights & tool badges
 ├── articles/
-│   └── index.html          # Security articles & research
+│   └── index.html          # Blog — Security articles & research
 ├── projects/
-│   └── index.html          # Project writeups (IR-report format)
-├── skills/
-│   └── index.html          # Certifications, tools, competencies
+│   └── index.html          # Tools — Categorized security toolkit (Network, Endpoint, SIEM, etc.)
 ├── css/
 │   └── style.css           # Custom stylesheet (CSS custom properties)
 ├── js/
@@ -45,6 +38,6 @@ The result is a **CISO Operations Dashboard** theme: dark solarized palette, tab
 
 - Replace `images/avatar.jpg` with your profile photo
 - Update profile name, title, and bio in `index.html`
-- Add your actual certifications in `skills/index.html`
-- Link your real GitHub and LinkedIn in the footer
-- Replace placeholder article/project content with your own
+- Add your actual certifications and links in the footer
+- Replace placeholder article content with your own
+- Add your real tools in `projects/index.html`

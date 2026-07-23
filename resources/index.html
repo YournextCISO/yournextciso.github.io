@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Curated security resources by YournextCISO — tools, references, and DFIR knowledge.">
+  <title>Resources | YournextCISO</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🛡️</text></svg>">
+</head>
+<body>
+
+  <a href="#main-content" class="sr-only skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" title="YournextCISO">
+        <img src="../images/avatar.png" alt="" class="brand-avatar" width="32" height="32" onerror="this.style.display='none'">
+        <span>yournextciso</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav>
+        <ul class="nav-tabs" id="navTabs">
+          <li><a href="/" class="nav-tab"><span class="ix">↗</span>Home</a></li>
+          <li><a href="/blogs/" class="nav-tab"><span class="ix">↗</span>Blog</a></li>
+          <li><a href="/resources/" class="nav-tab"><span class="ix">↗</span>Resources</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <div class="container" style="padding-top:2rem;padding-bottom:3rem;">
+
+      <h1>Resources</h1>
+      <p style="color:var(--soc-ink0);margin-bottom:2rem;">Curated tools, references, and knowledge I've come across on my Blue Team & DFIR journey.</p>
+
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>DFIR & Forensics</h2>
+        </div>
+        <ul style="list-style:none;padding:0;">
+          <li class="resource-item">
+            <a href="https://github.com/Velocidex/velociraptor" target="_blank" rel="noopener">Velociraptor</a>
+            <span class="resource-desc">Advanced endpoint monitoring, digital forensics, and incident response platform.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://ericzimmerman.github.io/" target="_blank" rel="noopener">Eric Zimmerman's Tools</a>
+            <span class="resource-desc">Forensic analysis tools for Windows artifacts — Registry, LNK, Jump Lists, and more.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://www.sans.org/tools/sift-workstation/" target="_blank" rel="noopener">SIFT Workstation</a>
+            <span class="resource-desc">SANS Investigative Forensics Toolkit — Ubuntu-based VM for incident response.</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Blue Team & Detection</h2>
+        </div>
+        <ul style="list-style:none;padding:0;">
+          <li class="resource-item">
+            <a href="https://detection.fyi/" target="_blank" rel="noopener">Detection.FYI</a>
+            <span class="resource-desc">Community-curated detection rules across SIEMs and platforms.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://github.com/SigmaHQ/sigma" target="_blank" rel="noopener">Sigma Rules</a>
+            <span class="resource-desc">Generic signature format for SIEM systems — write once, convert for any platform.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://attack.mitre.org/" target="_blank" rel="noopener">MITRE ATT&CK</a>
+            <span class="resource-desc">Adversarial tactics, techniques, and common knowledge — essential for detection mapping.</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Cloud Security</h2>
+        </div>
+        <ul style="list-style:none;padding:0;">
+          <li class="resource-item">
+            <a href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener">Prowler</a>
+            <span class="resource-desc">Multi-cloud security assessment and auditing tool — AWS, Azure, GCP.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://github.com/nccgroup/ScoutSuite" target="_blank" rel="noopener">ScoutSuite</a>
+            <span class="resource-desc">Multi-cloud security auditing tool by NCC Group.</span>
+          </li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>Labs & Training</h2>
+        </div>
+        <ul style="list-style:none;padding:0;">
+          <li class="resource-item">
+            <a href="https://tryhackme.com/" target="_blank" rel="noopener">TryHackMe</a>
+            <span class="resource-desc">Hands-on cybersecurity training through guided labs and challenges.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://letsdefend.io/" target="_blank" rel="noopener">LetsDefend</a>
+            <span class="resource-desc">Blue team training platform with real-world SOC simulations.</span>
+          </li>
+          <li class="resource-item">
+            <a href="https://cyberdefenders.org/" target="_blank" rel="noopener">CyberDefenders</a>
+            <span class="resource-desc">DFIR challenges and blue team CTF exercises.</span>
+          </li>
+        </ul>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><span class="status-dot" aria-hidden="true"></span> OPERATIONAL STATUS: ONLINE &mdash; Uptime <span id="uptimeCounter">--:--:--</span></p>
+      <p style="margin-top:0.5rem;">
+        &copy; <span id="currentYear">2026</span> YournextCISO &mdash;
+        <a href="https://github.com/YournextCISO">GitHub</a> &middot;
+        <a href="https://x.com/yournextciso">@yournextciso</a> &middot;
+        <a href="https://www.linkedin.com/">LinkedIn</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+</body>
+</html>
