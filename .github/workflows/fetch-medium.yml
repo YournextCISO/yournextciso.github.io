@@ -1,0 +1,79 @@
+name: Fetch Medium Posts
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install feedparser
+        run: pip install feedparser
+
+      - name: Fetch and parse Medium RSS
+        run: |
+          python - << 'PYEOF'
+          import json
+          import feedparser
+
+          FEED_URL = "https://medium.com/feed/@YournextCISO"
+          OUTPUT_PATH = "medium-posts.json"
+
+          feed = feedparser.parse(FEED_URL)
+
+          posts = []
+          for entry in feed.entries[:10]:
+              # Extract categories (tags)
+              tags = []
+              if hasattr(entry, "tags"):
+                  for tag in entry.tags:
+                      term = tag.get("term", "")
+                      if term:
+                          tags.append(term)
+
+              # Extract first paragraph as excerpt (strip HTML)
+              excerpt = ""
+              if hasattr(entry, "summary"):
+                  import re
+                  clean = re.sub(r"<[^>]+>", "", entry.summary)
+                  # Take first ~200 chars
+                  if len(clean) > 250:
+                      clean = clean[:250].rsplit(" ", 1)[0] + "…"
+                  excerpt = clean.strip()
+
+              posts.append({
+                  "title": entry.title if hasattr(entry, "title") else "",
+                  "link": entry.link if hasattr(entry, "link") else "",
+                  "published": entry.published if hasattr(entry, "published") else "",
+                  "tags": tags,
+                  "excerpt": excerpt
+              })
+
+          with open(OUTPUT_PATH, "w", encoding="utf-8") as f:
+              json.dump(posts, f, indent=2, ensure_ascii=False)
+
+          print(f"Saved {len(posts)} posts to {OUTPUT_PATH}")
+          PYEOF
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add medium-posts.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update Medium posts [skip ci]"
+            git push
+          fi

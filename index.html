@@ -50,41 +50,10 @@
           <h2>Recent Blog Posts</h2>
         </div>
 
-        <article class="card">
-          <div class="card-title"><a href="blogs/aws-incident-response-playbook.html">Building an AWS IR Playbook for Lean Teams</a></div>
-          <div class="card-meta">
-            <span>📅 15 Jul 2026</span>
-            <span>⏱ 8 min read</span>
-          </div>
-          <div class="card-excerpt">A practical framework for small security teams to respond to cloud compromises without enterprise tooling. Covers containment, forensics, and recovery in AWS.</div>
-          <div style="margin-top:0.5rem;">
-            <span class="tag">AWS</span><span class="tag">Incident Response</span><span class="tag">DFIR</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-title"><a href="blogs/iam-privilege-escalation-paths.html">Common IAM Privilege Escalation Paths (And How to Detect Them)</a></div>
-          <div class="card-meta">
-            <span>📅 28 Jun 2026</span>
-            <span>⏱ 12 min read</span>
-          </div>
-          <div class="card-excerpt">An attacker's view of AWS IAM — exploring 5 privilege escalation techniques and building CloudTrail detections for each one.</div>
-          <div style="margin-top:0.5rem;">
-            <span class="tag">IAM</span><span class="tag">Cloud Security</span><span class="tag">Detection</span>
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-title"><a href="blogs/terraform-security-baseline.html">Terraform Security Baseline for Multi-Account AWS</a></div>
-          <div class="card-meta">
-            <span>📅 10 Jun 2026</span>
-            <span>⏱ 6 min read</span>
-          </div>
-          <div class="card-excerpt">How to codify security guardrails across AWS Organizations using Terraform — SCPs, Config rules, and centralized logging.</div>
-          <div style="margin-top:0.5rem;">
-            <span class="tag">Terraform</span><span class="tag">IaC</span><span class="tag">Hardening</span>
-          </div>
-        </article>
+        <div data-medium-feed="3">
+          <!-- Dynamically populated from medium-posts.json -->
+          <p style="color:var(--soc-ink0);">Loading posts…</p>
+        </div>
 
         <p style="text-align:right;margin-top:0.5rem;">
           <a href="blogs/">View all posts →</a>
@@ -111,5 +80,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/medium-feed.js"></script>
 </body>
 </html>

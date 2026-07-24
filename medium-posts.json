@@ -1,0 +1,12 @@
+[
+  {
+    "title": "Sample Medium Post",
+    "link": "https://medium.com/@YournextCISO",
+    "published": "2026-07-24",
+    "tags": [
+      "Security",
+      "Cloud"
+    ],
+    "excerpt": "This is a placeholder post. Once the GitHub Action runs, your real Medium posts will appear here automatically within 5 minutes of publishing."
+  }
+]

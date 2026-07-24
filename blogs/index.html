@@ -219,6 +219,23 @@
         </article>
       </section>
 
+      <!-- Medium Articles (auto-pulled) -->
+      <section class="section">
+        <div class="section-header">
+          <span class="indicator" aria-hidden="true"></span>
+          <h2>On Medium</h2>
+        </div>
+
+        <div data-medium-feed="10">
+          <!-- Dynamically populated from medium-posts.json -->
+          <p style="color:var(--soc-ink0);">Loading posts…</p>
+        </div>
+
+        <p style="text-align:right;margin-top:0.5rem;">
+          <a href="https://medium.com/@YournextCISO" target="_blank" rel="noopener">Read more on Medium →</a>
+        </p>
+      </section>
+
     </div>
   </main>
 
@@ -235,5 +252,6 @@
   </footer>
 
   <script src="../js/main.js"></script>
+  <script src="../js/medium-feed.js"></script>
 </body>
 </html>
