@@ -1,12 +1,129 @@
 [
   {
-    "title": "Sample Medium Post",
-    "link": "https://medium.com/@YournextCISO",
-    "published": "2026-07-24",
+    "title": "Cyberdefenders: SysInternals",
+    "link": "https://medium.com/@yournextCISO/cyberdefenders-sysinternals-12c670eb4e24?source=rss-e695c47bca91------2",
+    "published": "Fri, 15 May 2026 15:50:38 GMT",
     "tags": [
-      "Security",
-      "Cloud"
+      "digital-forensics",
+      "sysinternals",
+      "cybersecurity",
+      "ctf-writeup"
     ],
-    "excerpt": "This is a placeholder post. Once the GitHub Action runs, your real Medium posts will appear here automatically within 5 minutes of publishing."
+    "excerpt": "InfoScenario.A user thought they were downloading the SysInternals tool suite and attempted to open it, but the tools did not launch and became inaccessible. Since then, the user has observed that their system has gradually slowed down and become…"
+  },
+  {
+    "title": "HTB Sherlock : WorkFromHome",
+    "link": "https://medium.com/@yournextCISO/htb-sherlock-workfromhome-f3940ef56e42?source=rss-e695c47bca91------2",
+    "published": "Wed, 13 May 2026 04:05:34 GMT",
+    "tags": [
+      "hackthebox",
+      "cybersecurity",
+      "digital-forensics",
+      "blue-team"
+    ],
+    "excerpt": "Link to Lab: https://app.hackthebox.com/sherlocks/WorkFromHomeTools: SIFT Workstation, EZtools, foremost, hindsightWowza Enterprise (Wowza Inc.) has hired you to investigate an incident involving a workstation used by Otello John, which is believed…"
+  },
+  {
+    "title": "Malware Monday #4",
+    "link": "https://medium.com/@yournextCISO/malware-monday-4-53352dbbc6fc?source=rss-e695c47bca91------2",
+    "published": "Mon, 24 Feb 2025 19:37:05 GMT",
+    "tags": [
+      "learning",
+      "write",
+      "cybersecurity",
+      "malware-analysis",
+      "malware"
+    ],
+    "excerpt": "Malware rtf docsMalicious DocAnalyze malicious .doc fileFile: /root/Desktop/ChallengeFiles/factura.zipPassword: infectedWhat type of exploit is running as a result of the relevant file running on the victim machine?Since RTF documents are commonly…"
+  },
+  {
+    "title": "PCAP Saturday- Web Inve",
+    "link": "https://medium.com/@yournextCISO/pcap-saturday-web-inve-c2161768af30?source=rss-e695c47bca91------2",
+    "published": "Sat, 22 Feb 2025 21:16:17 GMT",
+    "tags": [
+      "network-forensics",
+      "pcap-analysis",
+      "cybersecurity",
+      "writeup",
+      "wireshark"
+    ],
+    "excerpt": "PCAP Saturday- Web Investigation LabInitial Access, Persistence, Command and controlScenarioYou are a cybersecurity analyst working in the Security Operations Center (SOC) of BookWorld, an expansive online bookstore renowned for its vast selection…"
+  },
+  {
+    "title": "Malware Monday #3",
+    "link": "https://medium.com/@yournextCISO/malware-monday-3-1de73142981f?source=rss-e695c47bca91------2",
+    "published": "Mon, 17 Feb 2025 20:38:14 GMT",
+    "tags": [
+      "soc-analyst",
+      "learning",
+      "cybersecurity",
+      "malware-analysis",
+      "malware"
+    ],
+    "excerpt": "Watching the malware in action.Resuming from where we stopped last time out, and below are the steps we will be walking through in this session.Make sure image.exe is terminated on the Windows VM, and then revert the machine to the original image…"
+  },
+  {
+    "title": "PCAP Saturday",
+    "link": "https://medium.com/@yournextCISO/pcap-saturday-0f16d3ec53d7?source=rss-e695c47bca91------2",
+    "published": "Sat, 15 Feb 2025 21:54:15 GMT",
+    "tags": [
+      "cybersecurity",
+      "ctf-writeup",
+      "dfir",
+      "networking",
+      "cyberdefender"
+    ],
+    "excerpt": "Network Forensics one packet at a timeScenarioA company’s internal server has been flagged for unusual network activity, with multiple outbound connections to an unknown external IP. Initial analysis suggests possible data exfiltration. Investigate…"
+  },
+  {
+    "title": "Malware Analysis Monday #2",
+    "link": "https://medium.com/@yournextCISO/malware-analysis-monday-2-64535ad9ee70?source=rss-e695c47bca91------2",
+    "published": "Mon, 10 Feb 2025 21:19:49 GMT",
+    "tags": [
+      "malware-analysis",
+      "writeup",
+      "soc-analyst",
+      "malware",
+      "cybersecurity"
+    ],
+    "excerpt": "Genesis but the chapter just gets longer.Scenario DescriptionYou are a junior cybersecurity analyst working for a medium-sized company. Your team has received reports of unusual network activity, and after preliminary investigation, a suspicious…"
+  },
+  {
+    "title": "Reveal Lab",
+    "link": "https://medium.com/@yournextCISO/reveal-lab-5f0935799c7f?source=rss-e695c47bca91------2",
+    "published": "Sun, 09 Feb 2025 18:02:51 GMT",
+    "tags": [
+      "cybersecurity",
+      "cyberdefender",
+      "dll-hijacking",
+      "windows",
+      "digital-forensics"
+    ],
+    "excerpt": "Endpoint Forensics , Defense Evasion and DiscoveryLink: https://cyberdefenders.org/blueteam-ctf-challenges/reveal/ScenarioYou are a forensic investigator at a financial institution, and your SIEM flagged unusual activity on a workstation with access…"
+  },
+  {
+    "title": "Malware Analysis Monday #1",
+    "link": "https://medium.com/@yournextCISO/malware-analysis-monday-1-1fb4b35669a2?source=rss-e695c47bca91------2",
+    "published": "Mon, 03 Feb 2025 12:04:30 GMT",
+    "tags": [
+      "cybersecurity",
+      "reverse-engineering",
+      "malware-analysis",
+      "malware",
+      "hacking"
+    ],
+    "excerpt": "Journey of a thousand stepsINTROhttps://x.com/Ox4d5a/status/1773021062797615555Let’s start with an uncomfortable truth: malware analysis terrifies me.As someone trying to break into cybersecurity, I’ve stared at disassembled code until my eyes…"
+  },
+  {
+    "title": "HTB UFO-1",
+    "link": "https://medium.com/@yournextCISO/htb-ufo-1-ee8d7556df7c?source=rss-e695c47bca91------2",
+    "published": "Tue, 28 Jan 2025 23:55:43 GMT",
+    "tags": [
+      "learning",
+      "cybersecurity",
+      "osint",
+      "hacking"
+    ],
+    "excerpt": "HTB Sherlock : UFO-1Research , Aliens and moreSherlock ScenarioBeing in the ICS Industry, your security team always needs to be up to date and should be aware of the threats targeting organizations in your industry. You just started as a Threat…"
   }
 ]
