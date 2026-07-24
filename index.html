@@ -10,6 +10,9 @@
 </head>
 <body>
 
+  <!-- Starfield Background -->
+  <canvas id="starfield" aria-hidden="true"></canvas>
+
   <!-- Skip Link -->
   <a href="#main-content" class="sr-only skip-link">Skip to content</a>
 
@@ -43,15 +46,15 @@
 
     <div class="container">
 
-      <!-- Recent Blog Posts -->
+      <!-- Recent Blog Posts — Combined Feed (Medium + Obsidian) -->
       <section class="section" id="blog-feed">
         <div class="section-header">
           <span class="indicator" aria-hidden="true"></span>
           <h2>Recent Blog Posts</h2>
         </div>
 
-        <div data-medium-feed="3">
-          <!-- Dynamically populated from medium-posts.json -->
+        <div data-combined-feed="3">
+          <!-- Dynamically populated from medium-posts.json + obsidian-posts.json -->
           <p style="color:var(--soc-ink0);">Loading posts…</p>
         </div>
 
@@ -80,6 +83,7 @@
   </footer>
 
   <script src="js/main.js"></script>
-  <script src="js/medium-feed.js"></script>
+  <script src="js/starfield.js"></script>
+  <script src="js/combined-feed.js"></script>
 </body>
 </html>

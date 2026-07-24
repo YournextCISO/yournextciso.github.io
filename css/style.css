@@ -53,6 +53,17 @@ body {
   flex-direction: column;
 }
 
+/* --- Starfield Canvas --- */
+#starfield {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
 /* --- Skip Link (a11y) --- */
 .sr-only {
   position: absolute; width: 1px; height: 1px;
@@ -190,6 +201,7 @@ p + p { margin-top: 0.75rem; }
   padding: 1.25rem 1.5rem;
   margin-bottom: 1rem;
   transition: border-color 0.2s;
+  position: relative;
 }
 .card:hover { border-color: var(--soc-blue); }
 .card-title {
@@ -213,6 +225,30 @@ p + p { margin-top: 0.75rem; }
   font-size: 0.9rem;
 }
 
+/* --- Source Badge (on cards) --- */
+.card-source-badge {
+  display: inline-block;
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  padding: 0.2em 0.6em;
+  border-radius: 0 var(--soc-radius) 0 var(--soc-radius);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.badge-medium {
+  background: var(--soc-bg3);
+  color: var(--soc-ink2);
+  border: 1px solid var(--soc-bg3);
+}
+.badge-obsidian {
+  background: #483699;
+  color: #e2d9ff;
+  border: 1px solid #5c47b0;
+}
+
 /* Tags */
 .tag {
   display: inline-block;
@@ -227,10 +263,47 @@ p + p { margin-top: 0.75rem; }
 }
 .tag:hover { background: var(--soc-blue); color: var(--soc-ink3); text-decoration: none; }
 
+/* --- Filter Bar (Blog page) --- */
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--soc-bg3);
+}
+.filter-pill {
+  display: inline-block;
+  padding: 0.3em 0.75em;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  background: var(--soc-bg1);
+  color: var(--soc-ink0);
+  border: 1px solid var(--soc-bg3);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+}
+.filter-pill:hover {
+  background: var(--soc-bg2);
+  color: var(--soc-ink2);
+  border-color: var(--soc-blue);
+}
+.filter-pill.active {
+  background: var(--soc-cyan);
+  color: var(--soc-bg0);
+  border-color: var(--soc-cyan);
+  font-weight: 700;
+}
+
 /* --- Profile Hero (Minimal) --- */
 .profile-hero {
   text-align: center;
   padding: 3rem 1.5rem 1.5rem;
+  position: relative;
+  z-index: 1;
 }
 .profile-avatar {
   width: 120px;
@@ -246,6 +319,8 @@ p + p { margin-top: 0.75rem; }
 /* --- Section Headers --- */
 .section {
   margin: 2rem 0;
+  position: relative;
+  z-index: 1;
 }
 .section-header {
   display: flex;
@@ -292,6 +367,94 @@ p + p { margin-top: 0.75rem; }
   font-size: 0.82rem;
 }
 
+/* --- Individual Post Page (Auto-generated for Obsidian posts) --- */
+.post-article {
+  max-width: var(--soc-max-w);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+.post-article .post-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--soc-bg3);
+}
+.post-article .post-title {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--soc-ink3);
+}
+.post-article .post-date {
+  color: var(--soc-ink0);
+  font-size: 0.9rem;
+  margin-bottom: 0.75rem;
+}
+.post-article .post-tags {
+  margin-bottom: 0.5rem;
+}
+.post-article .post-body {
+  line-height: 1.8;
+  color: var(--soc-ink1);
+}
+.post-article .post-body h1,
+.post-article .post-body h2,
+.post-article .post-body h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+.post-article .post-body h2 { font-size: 1.35rem; border-bottom: 1px solid var(--soc-bg3); padding-bottom: 0.35rem; }
+.post-article .post-body h3 { font-size: 1.15rem; }
+.post-article .post-body p { margin-bottom: 1rem; }
+.post-article .post-body ul,
+.post-article .post-body ol {
+  margin: 0.75rem 0 1rem 1.5rem;
+}
+.post-article .post-body li { margin-bottom: 0.35rem; }
+.post-article .post-body blockquote {
+  border-left: 3px solid var(--soc-cyan);
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+  background: var(--soc-bg1);
+  border-radius: 0 var(--soc-radius) var(--soc-radius) 0;
+  color: var(--soc-ink2);
+  font-style: italic;
+}
+.post-article .post-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--soc-radius);
+  border: 1px solid var(--soc-bg3);
+  margin: 1rem 0;
+}
+.post-article .post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+.post-article .post-body th,
+.post-article .post-body td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--soc-bg3);
+  text-align: left;
+}
+.post-article .post-body th {
+  background: var(--soc-bg1);
+  color: var(--soc-ink2);
+  font-weight: 600;
+}
+.post-article .post-body hr {
+  border: none;
+  border-top: 1px solid var(--soc-bg3);
+  margin: 2rem 0;
+}
+.post-article .post-back {
+  margin-top: 3rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--soc-bg3);
+}
+
 /* --- 404 --- */
 .error-page {
   text-align: center;
@@ -303,6 +466,14 @@ p + p { margin-top: 0.75rem; }
   color: var(--soc-cyan);
 }
 .error-page p { color: var(--soc-ink0); margin-top: 0.5rem; }
+
+/* --- Main content z-index (above starfield) --- */
+main,
+.site-header,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
 
 /* --- Responsive --- */
 @media (max-width: 640px) {
@@ -323,4 +494,7 @@ p + p { margin-top: 0.75rem; }
   h1 { font-size: 1.5rem; }
   .container { padding: 0 1rem; }
   .header-inner { padding: 0 1rem; }
+  .post-article .post-title { font-size: 1.5rem; }
+  .filter-bar { gap: 0.3rem; }
+  .filter-pill { font-size: 0.72rem; padding: 0.25em 0.6em; }
 }

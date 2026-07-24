@@ -1,17 +1,14 @@
 /* ==============================================
-   Medium Feed Loader — Dynamic Blog Posts
-   Fixed: per-container count support
+   Obsidian Feed Loader — Renders Obsidian Posts
+   Standalone renderer for dedicated Obsidian-only
+   feed sections using [data-obsidian-feed] containers.
    ============================================== */
 
 (function () {
   'use strict';
 
-  var FEED_JSON_PATH = '/medium-posts.json';
+  var FEED_JSON_PATH = '/obsidian-posts.json';
 
-  /**
-   * Format a date string to a readable format.
-   * Falls back to ISO if parsing fails.
-   */
   function formatDate(dateStr) {
     if (!dateStr) return '';
     try {
@@ -27,22 +24,22 @@
     }
   }
 
-  /**
-   * Build a single post card as a DOM element, matching the existing card style.
-   * Uses DOM methods to avoid XSS and entity-escaping pitfalls.
-   */
-  function createCard(post, sourceLabel) {
+  function createCard(post) {
     var article = document.createElement('article');
     article.className = 'card';
 
-    // Title link
+    // Source badge
+    var badge = document.createElement('span');
+    badge.className = 'card-source-badge badge-obsidian';
+    badge.textContent = 'Obsidian';
+    article.appendChild(badge);
+
+    // Title link (internal)
     var titleDiv = document.createElement('div');
     titleDiv.className = 'card-title';
     var titleLink = document.createElement('a');
-    titleLink.href = post.link || '#';
-    titleLink.target = '_blank';
-    titleLink.rel = 'noopener';
-    titleLink.textContent = (sourceLabel ? '[' + sourceLabel + '] ' : '') + post.title + ' \u21AA';
+    titleLink.href = post.url || '#';
+    titleLink.textContent = post.title;
     titleDiv.appendChild(titleLink);
     article.appendChild(titleDiv);
 
@@ -50,7 +47,7 @@
     var metaDiv = document.createElement('div');
     metaDiv.className = 'card-meta';
     var dateSpan = document.createElement('span');
-    dateSpan.textContent = '\uD83D\uDCC5 ' + formatDate(post.published);
+    dateSpan.textContent = '\uD83D\uDCC5 ' + formatDate(post.date);
     metaDiv.appendChild(dateSpan);
     article.appendChild(metaDiv);
 
@@ -64,7 +61,7 @@
     if (post.tags && post.tags.length) {
       var tagsWrapper = document.createElement('div');
       tagsWrapper.style.marginTop = '0.5rem';
-      post.tags.slice(0, 4).forEach(function (tag) {
+      post.tags.slice(0, 5).forEach(function (tag) {
         var tagSpan = document.createElement('span');
         tagSpan.className = 'tag';
         tagSpan.textContent = tag;
@@ -76,12 +73,8 @@
     return article;
   }
 
-  /**
-   * Fetch and render Medium posts into containers.
-   * Each container respects its own data-medium-feed count.
-   */
   function loadFeed() {
-    var containers = document.querySelectorAll('[data-medium-feed]');
+    var containers = document.querySelectorAll('[data-obsidian-feed]');
     if (!containers.length) return;
 
     fetch(FEED_JSON_PATH)
@@ -95,15 +88,14 @@
             c.innerHTML = '';
             var p = document.createElement('p');
             p.style.color = 'var(--soc-ink0)';
-            p.textContent = 'No Medium posts yet.';
+            p.textContent = 'No Obsidian notes published yet.';
             c.appendChild(p);
           });
           return;
         }
 
-        // Render each container with its own count
         containers.forEach(function (container) {
-          var count = parseInt(container.getAttribute('data-medium-feed'), 10) || posts.length;
+          var count = parseInt(container.getAttribute('data-obsidian-feed'), 10) || posts.length;
           count = Math.min(count, posts.length);
 
           container.innerHTML = '';
@@ -115,7 +107,7 @@
         });
       })
       .catch(function (err) {
-        console.warn('Medium feed unavailable:', err.message);
+        console.warn('Obsidian feed unavailable:', err.message);
         containers.forEach(function (c) { c.innerHTML = ''; });
       });
   }
