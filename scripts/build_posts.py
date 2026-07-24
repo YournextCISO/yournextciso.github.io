@@ -147,7 +147,7 @@ def copy_attachments(slug, attachments_dir, images_dir, frontmatter):
                 print(f"  Copied {copied} attachment(s)")
 
 
-def build_post_page(md_file, slug, title, date_str, tags, html_body, template):
+def build_post_page(md_file, slug, title, date_str, tags, html_body, template, back_url="/blogs/", back_label="Back to all posts"):
     """Generate an individual post HTML page from the template."""
     tags_html = ""
     if tags:
@@ -157,11 +157,14 @@ def build_post_page(md_file, slug, title, date_str, tags, html_body, template):
         tags_html = f'<div class="post-tags">{tag_spans}</div>'
 
     html = template
+    
     html = html.replace("{{TITLE}}", title)
     html = html.replace("{{DATE}}", date_str or "")
     html = html.replace("{{TAGS}}", tags_html)
     html = html.replace("{{CONTENT}}", html_body)
     html = html.replace("{{SLUG}}", slug)
+    html = html.replace("{{BACK_URL}}", back_url)
+    html = html.replace("{{BACK_LABEL}}", back_label)
 
     return html
 
@@ -249,7 +252,7 @@ def build(config):
         # Write individual post page
         post_dir = output_posts_dir / slug
         post_dir.mkdir(parents=True, exist_ok=True)
-        post_html = build_post_page(md_file, slug, title, date_str, tags, html_body, template)
+        post_html = build_post_page(md_file, slug, title, date_str, tags, html_body, template, config["back_url"], config["back_label"])
         (post_dir / "index.html").write_text(post_html, encoding="utf-8")
         print(f"  Generated: /{config['output_dir']}/{slug}/")
 
@@ -284,6 +287,8 @@ def main():
             "output_dir": "blogs/posts",
             "images_dir": "images/posts",
             "json_output": "obsidian-posts.json",
+            "back_url": "/blogs/",
+            "back_label": "Back to all posts",
         },
         "dfiring": {
             "type": "dfiring",
@@ -291,6 +296,8 @@ def main():
             "output_dir": "dfiring/posts",
             "images_dir": "images/dfiring",
             "json_output": "dfiring-posts.json",
+            "back_url": "/dfiring/",
+            "back_label": "Back to DFIRing",
         }
     }
 
