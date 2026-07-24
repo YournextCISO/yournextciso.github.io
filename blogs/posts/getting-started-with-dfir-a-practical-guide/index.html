@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Getting Started with DFIR — A Practical Guide — YournextCISO">
+  <title>Getting Started with DFIR — A Practical Guide | YournextCISO</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🛡️</text></svg>">
+</head>
+<body>
+
+  <a href="#main-content" class="sr-only skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" title="YournextCISO">
+        <img src="/images/avatar.png" alt="" class="brand-avatar" width="32" height="32" onerror="this.style.display='none'">
+        <span>yournextciso</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav>
+        <ul class="nav-tabs" id="navTabs">
+          <li><a href="/" class="nav-tab"><span class="ix">↗</span>Home</a></li>
+          <li><a href="/blogs/" class="nav-tab"><span class="ix">↗</span>Blog</a></li>
+          <li><a href="/resources/" class="nav-tab"><span class="ix">↗</span>Resources</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <article class="post-article">
+      <header class="post-header">
+        <h1 class="post-title">Getting Started with DFIR — A Practical Guide</h1>
+        <div class="post-date">📅 2026-07-22</div>
+        <div class="post-tags"><span class="tag">DFIR</span><span class="tag">Blue Team</span><span class="tag">SOC</span><span class="tag">Forensics</span></div>
+      </header>
+
+      <div class="post-body">
+        <h2 id="what-is-dfir">What is DFIR?</h2>
+<p>Digital Forensics and Incident Response (DFIR) is the discipline of investigating security incidents, collecting evidence, and responding to breaches. For SOC analysts and blue teamers, DFIR skills are essential.</p>
+<h2 id="the-dfir-workflow">The DFIR Workflow</h2>
+<p>Every DFIR investigation follows a structured process:</p>
+<ol>
+<li><strong>Preparation</strong> — Build your toolkit, establish logging, set up baselines</li>
+<li><strong>Identification</strong> — Detect the incident through alerts, logs, or threat intel</li>
+<li><strong>Containment</strong> — Stop the bleeding — isolate affected systems</li>
+<li><strong>Eradication</strong> — Remove the threat from the environment</li>
+<li><strong>Recovery</strong> — Restore systems to normal operation</li>
+<li><strong>Lessons Learned</strong> — Document findings and improve defenses</li>
+</ol>
+<h2 id="essential-tools">Essential Tools</h2>
+<h3 id="endpoint-forensics">Endpoint Forensics</h3>
+<ul>
+<li><strong>Sysinternals Suite</strong> — Process Explorer, Autoruns, TCPView</li>
+<li><strong>KAPE</strong> (Kroll Artifact Parser and Extractor) — Rapid triage collection</li>
+<li><strong>Velociraptor</strong> — Open-source endpoint visibility and DFIR</li>
+<li><strong>FTK Imager</strong> — Disk imaging and memory capture</li>
+</ul>
+<h3 id="log-analysis">Log Analysis</h3>
+<ul>
+<li><strong>ELK Stack</strong> (Elasticsearch, Logstash, Kibana) — Free SIEM</li>
+<li><strong>Splunk</strong> — Enterprise log management</li>
+<li><strong>Wazuh</strong> — Open-source XDR/SIEM</li>
+</ul>
+<h3 id="network-forensics">Network Forensics</h3>
+<ul>
+<li><strong>Wireshark</strong> — The classic packet analyzer</li>
+<li><strong>NetworkMiner</strong> — Network forensic analysis</li>
+<li><strong>Zeek (formerly Bro)</strong> — Network security monitoring</li>
+</ul>
+<h2 id="building-your-home-lab">Building Your Home Lab</h2>
+<blockquote>
+<p>The best way to learn DFIR is by doing. Set up a home lab and investigate real scenarios.</p>
+</blockquote>
+<p>Here's a minimal DFIR lab setup:</p>
+<pre class="codehilite"><code>VirtualBox/Hyper-V
+├── Windows 10 VM (victim)
+├── Ubuntu Server (SIEM — Wazuh/ELK)
+├── Kali Linux (attack simulation)
+└── SIFT Workstation (forensics)
+</code></pre>
+
+<p>Run Atomic Red Team tests on the Windows VM, collect artifacts with KAPE, and analyze them on the SIFT workstation. It's a complete DFIR workflow — all on your own hardware.</p>
+<h2 id="key-mindset-shifts">Key Mindset Shifts</h2>
+<ul>
+<li><strong>Assume breach</strong> — Don't wait for confirmation to start investigating</li>
+<li><strong>Preserve evidence</strong> — Always work on copies, never on original data</li>
+<li><strong>Timeline everything</strong> — Correlate events across endpoints, logs, and network</li>
+<li><strong>Document as you go</strong> — Your notes are your final deliverable</li>
+</ul>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://www.sans.org/posters/">SANS DFIR Posters</a> — Free reference sheets</li>
+<li><a href="https://cyberdefenders.org/">CyberDefenders</a> — Blue team CTF challenges</li>
+<li><a href="https://letsdefend.io/">LetsDefend</a> — SOC simulation platform</li>
+<li><a href="https://tryhackme.com/">TryHackMe SOC Level 1</a> — Beginner-friendly SOC path</li>
+</ul>
+<hr />
+<p><em>This post is part of my DFIR learning series. Stay tuned for more hands-on walkthroughs!</em></p>
+      </div>
+
+      <div class="post-back">
+        <a href="/blogs/">← Back to all posts</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><span class="status-dot" aria-hidden="true"></span> OPERATIONAL STATUS: ONLINE &mdash; Uptime <span id="uptimeCounter">--:--:--</span></p>
+      <p style="margin-top:0.5rem;">
+        &copy; <span id="currentYear">2026</span> YournextCISO &mdash;
+        <a href="https://github.com/YournextCISO">GitHub</a> &middot;
+        <a href="https://x.com/YournextCISO">@YournextCISO</a> &middot;
+        <a href="https://www.linkedin.com/in/ndesylvarius/">LinkedIn</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

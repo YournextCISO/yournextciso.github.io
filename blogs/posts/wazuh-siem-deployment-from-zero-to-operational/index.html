@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Wazuh SIEM Deployment — From Zero to Operational — YournextCISO">
+  <title>Wazuh SIEM Deployment — From Zero to Operational | YournextCISO</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='28' font-size='28'>🛡️</text></svg>">
+</head>
+<body>
+
+  <a href="#main-content" class="sr-only skip-link">Skip to content</a>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="/" class="brand" title="YournextCISO">
+        <img src="/images/avatar.png" alt="" class="brand-avatar" width="32" height="32" onerror="this.style.display='none'">
+        <span>yournextciso</span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <nav>
+        <ul class="nav-tabs" id="navTabs">
+          <li><a href="/" class="nav-tab"><span class="ix">↗</span>Home</a></li>
+          <li><a href="/blogs/" class="nav-tab"><span class="ix">↗</span>Blog</a></li>
+          <li><a href="/resources/" class="nav-tab"><span class="ix">↗</span>Resources</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <article class="post-article">
+      <header class="post-header">
+        <h1 class="post-title">Wazuh SIEM Deployment — From Zero to Operational</h1>
+        <div class="post-date">📅 2026-07-18</div>
+        <div class="post-tags"><span class="tag">Wazuh</span><span class="tag">SIEM</span><span class="tag">Detection</span><span class="tag">Lab</span><span class="tag">Open Source</span></div>
+      </header>
+
+      <div class="post-body">
+        <h2 id="why-wazuh">Why Wazuh?</h2>
+<p>Wazuh is a free, open-source Security Information and Event Management (SIEM) and Extended Detection and Response (XDR) platform. It's used by organizations of all sizes for:</p>
+<ul>
+<li>Log data analysis</li>
+<li>File integrity monitoring (FIM)</li>
+<li>Vulnerability detection</li>
+<li>Configuration assessment</li>
+<li>Incident response</li>
+<li>Regulatory compliance (PCI DSS, HIPAA, GDPR)</li>
+</ul>
+<h2 id="architecture-overview">Architecture Overview</h2>
+<p>The Wazuh platform consists of three main components:</p>
+<pre class="codehilite"><code>┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Wazuh Agent │────▶│ Wazuh Server │────▶│ Wazuh Indexer│
+│  (endpoints) │     │  (manager)   │     │(Elasticsearch)│
+└──────────────┘     └──────────────┘     └──────────────┘
+</code></pre>
+
+<ul>
+<li><strong>Wazuh Agent</strong> — Installed on endpoints, collects logs and sends telemetry</li>
+<li><strong>Wazuh Server</strong> — Analyzes data, triggers alerts, manages agents</li>
+<li><strong>Wazuh Indexer</strong> — Stores and indexes data (based on OpenSearch/Elasticsearch)</li>
+<li><strong>Wazuh Dashboard</strong> — Web UI for visualization and management</li>
+</ul>
+<h2 id="step-1-install-the-wazuh-server">Step 1: Install the Wazuh Server</h2>
+<p>On Ubuntu 22.04:</p>
+<pre class="codehilite"><code class="language-bash"># Download the quickstart script
+curl -sO https://packages.wazuh.com/4.7/wazuh-install.sh
+curl -sO https://packages.wazuh.com/4.7/config.yml
+
+# Run the installation
+sudo bash wazuh-install.sh --generate-config-files
+sudo bash wazuh-install.sh --wazuh-indexer node-1
+sudo bash wazuh-install.sh --start-cluster
+sudo bash wazuh-install.sh --wazuh-server wazuh-1
+sudo bash wazuh-install.sh --wazuh-dashboard dashboard
+</code></pre>
+
+<blockquote>
+<p><strong>Note:</strong> Save all generated passwords! They'll be displayed at the end of the installation.</p>
+</blockquote>
+<h2 id="step-2-custom-detection-rules">Step 2: Custom Detection Rules</h2>
+<p>Create a custom rule file at <code>/var/ossec/etc/rules/local_rules.xml</code>:</p>
+<pre class="codehilite"><code class="language-xml">&lt;group name=&quot;custom,sysmon&quot;&gt;
+  &lt;rule id=&quot;100001&quot; level=&quot;12&quot;&gt;
+    &lt;if_sid&gt;61650&lt;/if_sid&gt;
+    &lt;field name=&quot;win.eventdata.commandLine&quot; type=&quot;pcre2&quot;&gt;mimikatz&lt;/field&gt;
+    &lt;description&gt;Mimikatz execution detected&lt;/description&gt;
+    &lt;mitre&gt;
+      &lt;id&gt;T1003&lt;/id&gt;
+    &lt;/mitre&gt;
+  &lt;/rule&gt;
+&lt;/group&gt;
+</code></pre>
+
+<p>This rule triggers on <strong>level 12</strong> (high severity) whenever Mimikatz is executed on any monitored endpoint.</p>
+<h2 id="step-3-deploy-agents">Step 3: Deploy Agents</h2>
+<p>On each Windows/Linux endpoint:</p>
+<pre class="codehilite"><code class="language-bash"># Linux agent
+curl -s https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.0-1_amd64.deb -o wazuh-agent.deb
+sudo WAZUH_MANAGER='10.0.0.10' dpkg -i ./wazuh-agent.deb
+sudo systemctl start wazuh-agent
+</code></pre>
+
+<p>For Windows, use the MSI installer with the <code>WAZUH_MANAGER</code> parameter pointing to your server.</p>
+<h2 id="step-4-verify-and-tune">Step 4: Verify and Tune</h2>
+<pre class="codehilite"><code class="language-bash"># Check agent status
+sudo /var/ossec/bin/agent_control -l
+
+# Test rule triggering
+sudo /var/ossec/bin/wazuh-logtest
+</code></pre>
+
+<h2 id="pro-tips">Pro Tips</h2>
+<ul>
+<li>Start with the default ruleset and <strong>tune before you customize</strong></li>
+<li>Use <code>sysmon</code> on Windows endpoints for rich event data</li>
+<li>Set up <strong>email/Slack alerts</strong> for high-severity rules</li>
+<li>Schedule regular <strong>agent health checks</strong></li>
+</ul>
+<hr />
+<p><em>This is part of my Wazuh Lab Series — check the GitHub repo for more advanced configurations.</em></p>
+      </div>
+
+      <div class="post-back">
+        <a href="/blogs/">← Back to all posts</a>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p><span class="status-dot" aria-hidden="true"></span> OPERATIONAL STATUS: ONLINE &mdash; Uptime <span id="uptimeCounter">--:--:--</span></p>
+      <p style="margin-top:0.5rem;">
+        &copy; <span id="currentYear">2026</span> YournextCISO &mdash;
+        <a href="https://github.com/YournextCISO">GitHub</a> &middot;
+        <a href="https://x.com/YournextCISO">@YournextCISO</a> &middot;
+        <a href="https://www.linkedin.com/in/ndesylvarius/">LinkedIn</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

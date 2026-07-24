@@ -1,1 +1,29 @@
-[]
+[
+  {
+    "title": "Getting Started with DFIR — A Practical Guide",
+    "date": "2026-07-22",
+    "tags": [
+      "DFIR",
+      "Blue Team",
+      "SOC",
+      "Forensics"
+    ],
+    "excerpt": "A hands-on introduction to Digital Forensics and Incident Response — covering the essential tools, workflows, and mindset for aspiring SOC analysts.",
+    "slug": "getting-started-with-dfir-a-practical-guide",
+    "url": "/blogs/posts/getting-started-with-dfir-a-practical-guide/"
+  },
+  {
+    "title": "Wazuh SIEM Deployment — From Zero to Operational",
+    "date": "2026-07-18",
+    "tags": [
+      "Wazuh",
+      "SIEM",
+      "Detection",
+      "Lab",
+      "Open Source"
+    ],
+    "excerpt": "A step-by-step guide to deploying Wazuh SIEM on a single node, configuring agents, writing custom detection rules, and setting up alerts.",
+    "slug": "wazuh-siem-deployment-from-zero-to-operational",
+    "url": "/blogs/posts/wazuh-siem-deployment-from-zero-to-operational/"
+  }
+]
