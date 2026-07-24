@@ -1,9 +1,10 @@
-name: Build Obsidian Posts
+name: Build Posts (Obsidian + DFIRing)
 
 on:
   push:
     paths:
       - 'content/posts/**'
+      - 'content/dfiring/**'
   workflow_dispatch:
 
 permissions:
@@ -25,14 +26,17 @@ jobs:
       - name: Build Obsidian posts
         run: python scripts/build_posts.py
 
+      - name: Build DFIRing posts
+        run: python scripts/build_posts.py --type dfiring
+
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add obsidian-posts.json blogs/posts/ images/posts/
+          git add obsidian-posts.json blogs/posts/ images/posts/ dfiring-posts.json dfiring/posts/ images/dfiring/
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Build Obsidian posts [skip ci]"
+            git commit -m "Build posts (Obsidian + DFIRing) [skip ci]"
             git push
           fi

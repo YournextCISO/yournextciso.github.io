@@ -1,13 +1,21 @@
 """
-Build Obsidian Posts — Converts Markdown notes to static HTML pages
-and generates obsidian-posts.json metadata for the site.
+Build Obsidian/DFIRing Posts — Converts Markdown notes to static HTML pages
+and generates JSON metadata for the site.
 
-Reads from:  content/posts/*.md
-Writes to:   blogs/posts/{slug}/index.html
-             obsidian-posts.json
-Copies:      content/posts/Attachments/* → images/posts/{slug}/
+Usage:
+  python scripts/build_posts.py
+    → Builds content/posts/ → obsidian-posts.json + blogs/posts/{slug}/
+
+  python scripts/build_posts.py --type dfiring
+    → Builds content/dfiring/ → dfiring-posts.json + dfiring/posts/{slug}/
+
+Reads from:  content/{posts|dfiring}/*.md
+Writes to:   {obsidian|dfiring}-posts.json
+             blogs/posts/{slug}/index.html  OR  dfiring/posts/{slug}/index.html
+Copies:      content/{posts|dfiring}/Attachments/* → images/{posts|dfiring}/{slug}/
 """
 
+import argparse
 import json
 import os
 import re
@@ -23,15 +31,11 @@ except ImportError:
     sys.exit(1)
 
 
-# Paths relative to repo root
-CONTENT_DIR = Path("content/posts")
-OUTPUT_POSTS_DIR = Path("blogs/posts")
-IMAGES_OUTPUT_DIR = Path("images/posts")
-JSON_OUTPUT = Path("obsidian-posts.json")
-ATTACHMENTS_DIR = CONTENT_DIR / "Attachments"
+# Paths relative to repo root (defaults, overridden by --type)
+ROOT = Path(__file__).resolve().parent.parent
 
-# Post template (will read from file)
-TEMPLATE_PATH = Path("scripts/post-template.html")
+# Post template
+TEMPLATE_PATH = ROOT / "scripts" / "post-template.html"
 
 SITE_TITLE = "YournextCISO"
 SITE_DESCRIPTION = "SOC Analyst | Blue Team | DFIR"
@@ -85,65 +89,59 @@ def extract_excerpt(body, max_chars=250):
     return clean
 
 
-def fix_image_paths(html_body, slug):
+def fix_image_paths(html_body, slug, content_type):
     """
     Rewrite image paths from Obsidian-style Attachments/ references
-    to the deployed images/posts/{slug}/ paths.
+    to the deployed images/{content_type}/{slug}/ paths.
     Also handles Obsidian-style wikilinks for images.
     """
     # Standard markdown images: ![alt](Attachments/file.png)
     html_body = re.sub(
         r'src="Attachments/([^"]+)"',
-        rf'src="/images/posts/{slug}/\1"',
+        rf'src="/images/{content_type}/{slug}/\1"',
         html_body
     )
 
     # Also handle src paths that might be relative like ../Attachments/
     html_body = re.sub(
-        r'src="(?:\.\./)?content/posts/Attachments/([^"]+)"',
-        rf'src="/images/posts/{slug}/\1"',
+        r'src="(?:\.\./)?(?:content/(?:posts|dfiring)/)?Attachments/([^"]+)"',
+        rf'src="/images/{content_type}/{slug}/\1"',
         html_body
     )
 
     # Handle Obsidian wikilink images: ![[file.png]]
     html_body = re.sub(
         r'!\[\[([^\]]+\.(?:png|jpg|jpeg|gif|svg|webp|bmp))\]\]',
-        rf'<img src="/images/posts/{slug}/\1" alt="\1" loading="lazy">',
+        rf'<img src="/images/{content_type}/{slug}/\1" alt="\1" loading="lazy">',
         html_body
     )
 
     return html_body
 
 
-def copy_attachments(slug, frontmatter):
+def copy_attachments(slug, attachments_dir, images_dir, frontmatter):
     """
     Copy attachment images for a post.
-    Looks in content/posts/Attachments/ for files referenced in the markdown.
     """
-    dest_dir = IMAGES_OUTPUT_DIR / slug
+    dest_dir = images_dir / slug
     dest_dir.mkdir(parents=True, exist_ok=True)
 
-    # If there's a specific attachments key in frontmatter, use that
     explicit_files = frontmatter.get("attachments", [])
 
     if explicit_files:
         for fname in explicit_files:
-            src = ATTACHMENTS_DIR / fname
+            src = attachments_dir / fname
             if src.exists():
-                dest = dest_dir / fname
-                shutil.copy2(src, dest)
+                shutil.copy2(src, dest_dir / fname)
                 print(f"  Copied: {fname}")
             else:
                 print(f"  WARNING: Attachment not found: {fname}")
     else:
-        # No explicit list — copy all files from Attachments dir
-        # (This is a best-effort; individual post image dirs would be ideal)
-        if ATTACHMENTS_DIR.exists():
+        if attachments_dir.exists():
             copied = 0
-            for f in ATTACHMENTS_DIR.iterdir():
+            for f in attachments_dir.iterdir():
                 if f.is_file():
-                    dest = dest_dir / f.name
-                    shutil.copy2(f, dest)
+                    shutil.copy2(f, dest_dir / f.name)
                     copied += 1
             if copied:
                 print(f"  Copied {copied} attachment(s)")
@@ -168,14 +166,21 @@ def build_post_page(md_file, slug, title, date_str, tags, html_body, template):
     return html
 
 
-def main():
-    print("=== Building Obsidian Posts ===\n")
+def build(config):
+    """Build posts for a given content type config."""
+    content_dir = ROOT / config["content_dir"]
+    output_posts_dir = ROOT / config["output_dir"]
+    images_dir = ROOT / config["images_dir"]
+    json_output = ROOT / config["json_output"]
+    attachments_dir = content_dir / "Attachments"
+    content_type = config["type"]
 
-    if not CONTENT_DIR.exists():
-        print(f"Content directory '{CONTENT_DIR}' does not exist. Nothing to build.")
-        # Create empty JSON file
-        JSON_OUTPUT.write_text("[]", encoding="utf-8")
-        print(f"Created empty {JSON_OUTPUT}")
+    print(f"\n=== Building {content_type} Posts ===\n")
+
+    if not content_dir.exists():
+        print(f"Content directory '{content_dir}' does not exist. Nothing to build.")
+        json_output.write_text("[]", encoding="utf-8")
+        print(f"Created empty {json_output}")
         return
 
     # Read post template
@@ -187,7 +192,7 @@ def main():
 
     # Find all markdown files (exclude README.md, index.md)
     md_files = sorted(
-        [f for f in CONTENT_DIR.glob("*.md")
+        [f for f in content_dir.glob("*.md")
          if f.name.lower() not in ("readme.md", "index.md")],
         key=lambda f: f.stat().st_mtime,
         reverse=True
@@ -195,15 +200,15 @@ def main():
 
     if not md_files:
         print("No markdown posts found.")
-        JSON_OUTPUT.write_text("[]", encoding="utf-8")
+        json_output.write_text("[]", encoding="utf-8")
         return
 
     print(f"Found {len(md_files)} markdown file(s)\n")
 
     # Clear and recreate output directories
-    if OUTPUT_POSTS_DIR.exists():
-        shutil.rmtree(OUTPUT_POSTS_DIR)
-    OUTPUT_POSTS_DIR.mkdir(parents=True, exist_ok=True)
+    if output_posts_dir.exists():
+        shutil.rmtree(output_posts_dir)
+    output_posts_dir.mkdir(parents=True, exist_ok=True)
 
     posts_meta = []
 
@@ -232,21 +237,21 @@ def main():
             html_body = markdown.markdown(body_md)
 
         # Fix image paths
-        html_body = fix_image_paths(html_body, slug)
+        html_body = fix_image_paths(html_body, slug, content_type)
 
         # Generate excerpt if not provided
         if not excerpt:
             excerpt = extract_excerpt(body_md)
 
         # Copy attachments
-        copy_attachments(slug, frontmatter)
+        copy_attachments(slug, attachments_dir, images_dir, frontmatter)
 
         # Write individual post page
-        post_dir = OUTPUT_POSTS_DIR / slug
+        post_dir = output_posts_dir / slug
         post_dir.mkdir(parents=True, exist_ok=True)
         post_html = build_post_page(md_file, slug, title, date_str, tags, html_body, template)
         (post_dir / "index.html").write_text(post_html, encoding="utf-8")
-        print(f"  Generated: /blogs/posts/{slug}/")
+        print(f"  Generated: /{config['output_dir']}/{slug}/")
 
         posts_meta.append({
             "title": title,
@@ -254,16 +259,45 @@ def main():
             "tags": tags,
             "excerpt": excerpt,
             "slug": slug,
-            "url": f"/blogs/posts/{slug}/"
+            "url": f"/{config['output_dir']}/{slug}/"
         })
 
-    # Write obsidian-posts.json
-    JSON_OUTPUT.write_text(
+    # Write JSON output
+    json_output.write_text(
         json.dumps(posts_meta, indent=2, ensure_ascii=False),
         encoding="utf-8"
     )
-    print(f"\nWrote {len(posts_meta)} posts to {JSON_OUTPUT}")
+    print(f"\nWrote {len(posts_meta)} posts to {json_output}")
     print("=== Done ===")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Build posts from markdown content")
+    parser.add_argument("--type", choices=["obsidian", "dfiring"], default="obsidian",
+                        help="Content type to build (default: obsidian)")
+    args = parser.parse_args()
+
+    configs = {
+        "obsidian": {
+            "type": "posts",
+            "content_dir": "content/posts",
+            "output_dir": "blogs/posts",
+            "images_dir": "images/posts",
+            "json_output": "obsidian-posts.json",
+        },
+        "dfiring": {
+            "type": "dfiring",
+            "content_dir": "content/dfiring",
+            "output_dir": "dfiring/posts",
+            "images_dir": "images/dfiring",
+            "json_output": "dfiring-posts.json",
+        }
+    }
+
+    if args.type == "obsidian":
+        build(configs["obsidian"])
+    elif args.type == "dfiring":
+        build(configs["dfiring"])
 
 
 if __name__ == "__main__":

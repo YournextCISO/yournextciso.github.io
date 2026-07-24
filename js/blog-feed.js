@@ -143,8 +143,15 @@
       return tagCounts[b] - tagCounts[a];
     });
 
-    // Build filter pills: All + Sources + Content Tags
-    var allTags = ['All'].concat(sourceTags).concat(sortedTags);
+    // Only show tags that appear 2+ times, capped at 20
+    var MIN_FREQ = 2;
+    var MAX_TAGS = 20;
+    var filteredTags = sortedTags.filter(function (t) {
+      return tagCounts[t] >= MIN_FREQ;
+    }).slice(0, MAX_TAGS);
+
+    // Build filter pills: All + Sources + Filtered Content Tags
+    var allTags = ['All'].concat(sourceTags).concat(filteredTags);
     filterBar.innerHTML = '';
 
     allTags.forEach(function (tag) {
