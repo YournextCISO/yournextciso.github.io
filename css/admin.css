@@ -1,0 +1,191 @@
+/* ==============================================
+   YournextCISO Admin Panel — Write / Edit / Post
+   ============================================== */
+
+.admin-shell {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .admin-shell { grid-template-columns: 1fr; }
+}
+
+/* --- Gate (token entry) --- */
+.admin-gate {
+  max-width: 480px;
+  margin: 2rem auto;
+  background: var(--soc-bg1);
+  border: 1px solid var(--soc-bg3);
+  border-radius: var(--soc-radius);
+  padding: 1.5rem;
+}
+.admin-gate p { color: var(--soc-ink0); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.admin-gate p + p { margin-top: 0; }
+
+/* --- Form controls --- */
+.field { margin-bottom: 1rem; }
+.field label {
+  display: block;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--soc-ink0);
+  margin-bottom: 0.35rem;
+}
+.field input[type="text"],
+.field input[type="date"],
+.field input[type="password"],
+.field textarea,
+.field select {
+  width: 100%;
+  background: var(--soc-bg0);
+  border: 1px solid var(--soc-bg3);
+  border-radius: var(--soc-radius);
+  color: var(--soc-ink2);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  padding: 0.55em 0.75em;
+}
+.field textarea { font-family: var(--font-mono); resize: vertical; }
+.field input:focus, .field textarea:focus, .field select:focus {
+  outline: none;
+  border-color: var(--soc-blue);
+}
+.field-row { display: flex; gap: 1rem; }
+.field-row .field { flex: 1; }
+.field-hint { font-size: 0.75rem; color: var(--soc-ink0); margin-top: 0.3rem; }
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  background: var(--soc-bg2);
+  border: 1px solid var(--soc-bg3);
+  color: var(--soc-ink2);
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.55em 1em;
+  border-radius: var(--soc-radius);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.btn:hover { border-color: var(--soc-blue); color: var(--soc-cyan); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary { background: var(--soc-ink3); color: var(--soc-bg0); border-color: var(--soc-ink3); }
+.btn-primary:hover { background: var(--soc-cyan); border-color: var(--soc-cyan); color: var(--soc-bg0); }
+.btn-danger { color: var(--soc-red); }
+.btn-danger:hover { border-color: var(--soc-red); color: var(--soc-red); }
+.btn-sm { font-size: 0.75rem; padding: 0.35em 0.7em; }
+
+/* --- Sidebar: post list --- */
+.admin-sidebar {
+  background: var(--soc-bg1);
+  border: 1px solid var(--soc-bg3);
+  border-radius: var(--soc-radius);
+  padding: 1rem;
+}
+.admin-sidebar h3 { font-size: 0.9rem; margin-bottom: 0.75rem; }
+.post-list { list-style: none; max-height: 60vh; overflow-y: auto; }
+.post-list li { margin-bottom: 0.25rem; }
+.post-list button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--soc-ink1);
+  font-size: 0.82rem;
+  padding: 0.5em 0.6em;
+  border-radius: var(--soc-radius);
+  cursor: pointer;
+}
+.post-list button:hover { background: var(--soc-bg2); }
+.post-list button.active { background: var(--soc-bg3); color: var(--soc-cyan); border-color: var(--soc-blue); }
+.post-list-empty { color: var(--soc-ink0); font-size: 0.82rem; }
+
+/* --- Editor --- */
+.admin-editor {
+  background: var(--soc-bg1);
+  border: 1px solid var(--soc-bg3);
+  border-radius: var(--soc-radius);
+  padding: 1.25rem 1.5rem;
+}
+.editor-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--soc-bg3);
+  padding-bottom: 0.6rem;
+}
+.editor-toolbar button {
+  background: var(--soc-bg2);
+  border: 1px solid var(--soc-bg3);
+  color: var(--soc-ink1);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  min-width: 2.1em;
+  padding: 0.3em 0.5em;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.editor-toolbar button:hover { border-color: var(--soc-blue); color: var(--soc-cyan); }
+.editor-toolbar button:disabled { opacity: 0.35; cursor: not-allowed; border-color: var(--soc-bg3); color: var(--soc-ink1); }
+
+.editor-panes { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.editor-panes.split { grid-template-columns: 1fr 1fr; }
+@media (max-width: 700px) { .editor-panes.split { grid-template-columns: 1fr; } }
+
+#postBody { min-height: 420px; line-height: 1.5; }
+.preview-pane {
+  min-height: 420px;
+  border: 1px solid var(--soc-bg3);
+  border-radius: var(--soc-radius);
+  padding: 1rem;
+  overflow-y: auto;
+  color: var(--soc-ink1);
+}
+.preview-pane h1, .preview-pane h2, .preview-pane h3 { margin-top: 1em; margin-bottom: 0.4em; }
+.preview-pane p { margin-bottom: 0.75em; }
+.preview-pane ul, .preview-pane ol { margin: 0 0 0.75em 1.3em; }
+.preview-pane blockquote {
+  border-left: 3px solid var(--soc-bg3);
+  padding-left: 0.9em;
+  color: var(--soc-ink0);
+  margin-bottom: 0.75em;
+}
+.preview-pane img { max-width: 100%; border-radius: var(--soc-radius); }
+
+.editor-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--soc-bg3);
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.editor-status { font-size: 0.8rem; color: var(--soc-ink0); }
+.editor-status.err { color: var(--soc-red); }
+.editor-status.ok { color: var(--soc-green); }
+
+.type-toggle { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+.type-toggle button {
+  flex: 1;
+  background: var(--soc-bg2);
+  border: 1px solid var(--soc-bg3);
+  color: var(--soc-ink1);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5em;
+  border-radius: var(--soc-radius);
+  cursor: pointer;
+}
+.type-toggle button.active { background: var(--soc-ink3); color: var(--soc-bg0); border-color: var(--soc-ink3); }
+
+.admin-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.5rem; }
+.admin-topbar .who { font-size: 0.8rem; color: var(--soc-ink0); }
