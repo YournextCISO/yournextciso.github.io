@@ -22,6 +22,9 @@
     token: localStorage.getItem(TOKEN_KEY) || '',
     type: 'dfiring',
     files: [],
+    publishedFiles: [],
+    draftFiles: [],
+    filter: 'all',
     currentPath: null,
     currentSha: null
   };
@@ -44,6 +47,7 @@
   const slugInput = document.getElementById('postSlug');
   const bodyInput = document.getElementById('postBody');
   const saveBtn = document.getElementById('saveBtn');
+  const draftBtn = document.getElementById('draftBtn');
   const deleteBtn = document.getElementById('deleteBtn');
   const editorStatus = document.getElementById('editorStatus');
   const editorToolbar = document.getElementById('editorToolbar');
@@ -53,6 +57,7 @@
   const imageFileInput = document.getElementById('imageFileInput');
   const undoBtn = document.getElementById('undoBtn');
   const redoBtn = document.getElementById('redoBtn');
+  const draftFilter = document.getElementById('draftFilter');
 
   // ---- GitHub API helpers ----
   function ghHeaders(extra) {
@@ -290,27 +295,64 @@
     postList.innerHTML = '<li class="post-list-empty">Loading…</li>';
     try {
       const dir = CONTENT_TYPES[state.type].dir;
-      state.files = await ghListDir(dir);
-      if (!state.files.length) {
-        postList.innerHTML = '<li class="post-list-empty">No posts yet.</li>';
-        return;
-      }
-      postList.innerHTML = '';
-      state.files.forEach(f => {
+      const [published, drafts] = await Promise.all([
+        ghListDir(dir),
+        ghListDir(`${dir}/drafts`)
+      ]);
+      state.publishedFiles = published;
+      state.draftFiles = drafts;
+      state.files = published.concat(drafts);
+      renderPostList();
+    } catch (e) {
+      postList.innerHTML = `<li class="post-list-empty">Error: ${e.message}</li>`;
+    }
+  }
+
+  function renderPostList() {
+    const published = state.filter === 'drafts' ? [] : state.publishedFiles;
+    const drafts = state.draftFiles;
+
+    if (!published.length && !drafts.length) {
+      postList.innerHTML = `<li class="post-list-empty">${state.filter === 'drafts' ? 'No drafts yet.' : 'No posts yet.'}</li>`;
+      return;
+    }
+
+    postList.innerHTML = '';
+    const renderGroup = (heading, items, isDraft) => {
+      if (!items.length) return;
+      const h = document.createElement('li');
+      h.className = 'post-list-heading';
+      h.textContent = heading;
+      postList.appendChild(h);
+      items.forEach(f => {
         const li = document.createElement('li');
         const btn = document.createElement('button');
         btn.textContent = f.name.replace(/\.md$/i, '');
+        if (isDraft) {
+          const tag = document.createElement('span');
+          tag.className = 'draft-tag';
+          tag.textContent = 'Draft';
+          btn.appendChild(tag);
+        }
         btn.dataset.path = f.path;
         btn.dataset.sha = f.sha;
         btn.addEventListener('click', () => openPost(f.path, f.sha));
         li.appendChild(btn);
         postList.appendChild(li);
       });
-      highlightActivePost();
-    } catch (e) {
-      postList.innerHTML = `<li class="post-list-empty">Error: ${e.message}</li>`;
-    }
+    };
+    renderGroup('Published', published, false);
+    renderGroup('Drafts', drafts, true);
+    highlightActivePost();
   }
+
+  draftFilter.addEventListener('click', e => {
+    const btn = e.target.closest('button[data-filter]');
+    if (!btn) return;
+    state.filter = btn.dataset.filter;
+    draftFilter.querySelectorAll('button').forEach(b => b.classList.toggle('active', b === btn));
+    renderPostList();
+  });
 
   async function openPost(path, sha) {
     setStatus('Loading…');
@@ -326,7 +368,7 @@
       slugInput.value = path.split('/').pop().replace(/\.md$/i, '');
       bodyInput.value = meta.body;
       deleteBtn.style.display = '';
-      setStatus('Loaded');
+      setStatus(path.includes('/drafts/') ? 'Draft loaded' : 'Loaded');
       highlightActivePost();
       resetHistory();
       if (previewPane.style.display !== 'none') updatePreview();
@@ -335,35 +377,49 @@
     }
   }
 
-  async function savePost() {
+  function gatherFields(requireBody) {
     const title = titleInput.value.trim();
-    if (!title) { setStatus('Title is required', 'err'); return; }
+    if (!title) { setStatus('Title is required', 'err'); return null; }
     const date = dateInput.value || new Date().toISOString().slice(0, 10);
     const tags = tagsInput.value.split(',').map(t => t.trim()).filter(Boolean);
     const excerpt = excerptInput.value.trim();
     const body = bodyInput.value;
-    if (!body.trim()) { setStatus('Body is empty', 'err'); return; }
-
+    if (requireBody && !body.trim()) { setStatus('Body is empty', 'err'); return null; }
     const slug = slugify(slugInput.value.trim() || title);
-    if (!slug) { setStatus('Could not derive a slug from the title', 'err'); return; }
+    if (!slug) { setStatus('Could not derive a slug from the title', 'err'); return null; }
+    return { title, date, tags, excerpt, body, slug };
+  }
+
+  async function savePost() {
+    const f = gatherFields(true);
+    if (!f) return;
 
     const dir = CONTENT_TYPES[state.type].dir;
-    const path = `${dir}/${slug}.md`;
-    const md = buildMarkdown({ title, date, tags, excerpt }, body);
+    const path = `${dir}/${f.slug}.md`;
+    const md = buildMarkdown(f, f.body);
 
     saveBtn.disabled = true;
     setStatus('Publishing…');
     try {
       let sha = state.currentPath === path ? state.currentSha : undefined;
       if (sha === undefined) {
-        // path changed (new post, or slug changed) — check if a file already exists there
+        // path changed (new post, slug changed, or promoting a draft) — check if a file already exists there
         try {
           const existing = await ghGetFile(path);
           sha = existing.sha;
         } catch (_) { /* doesn't exist yet, that's fine */ }
       }
-      const message = (state.currentPath ? 'Update' : 'Add') + ` post: ${title}`;
+      const wasDraft = !!state.currentPath && state.currentPath.startsWith(`${dir}/drafts/`);
+      const draftToClean = wasDraft ? { path: state.currentPath, sha: state.currentSha } : null;
+
+      const message = (state.currentPath && !wasDraft ? 'Update' : 'Publish') + ` post: ${f.title}`;
       await ghPutFile(path, md, message, sha);
+
+      if (draftToClean) {
+        try { await ghDeleteFile(draftToClean.path, draftToClean.sha, `Remove draft after publish: ${f.title}`); }
+        catch (_) { /* not fatal — the published copy is what matters */ }
+      }
+
       state.currentPath = path;
       state.currentSha = undefined;
       deleteBtn.style.display = '';
@@ -373,6 +429,38 @@
       setStatus(e.message, 'err');
     } finally {
       saveBtn.disabled = false;
+    }
+  }
+
+  async function saveDraft() {
+    const f = gatherFields(false);
+    if (!f) return;
+
+    const dir = CONTENT_TYPES[state.type].dir;
+    const path = `${dir}/drafts/${f.slug}.md`;
+    const md = buildMarkdown(f, f.body);
+
+    draftBtn.disabled = true;
+    setStatus('Saving draft…');
+    try {
+      let sha = state.currentPath === path ? state.currentSha : undefined;
+      if (sha === undefined) {
+        try {
+          const existing = await ghGetFile(path);
+          sha = existing.sha;
+        } catch (_) { /* doesn't exist yet, that's fine */ }
+      }
+      const message = (state.currentPath === path ? 'Update' : 'Save') + ` draft: ${f.title}`;
+      await ghPutFile(path, md, message, sha);
+      state.currentPath = path;
+      state.currentSha = undefined;
+      deleteBtn.style.display = '';
+      setStatus('Draft saved — not published, only visible here', 'ok');
+      await loadPostList();
+    } catch (e) {
+      setStatus(e.message, 'err');
+    } finally {
+      draftBtn.disabled = false;
     }
   }
 
@@ -566,6 +654,7 @@
 
   newPostBtn.addEventListener('click', clearEditor);
   saveBtn.addEventListener('click', savePost);
+  draftBtn.addEventListener('click', saveDraft);
   deleteBtn.addEventListener('click', deletePost);
   titleInput.addEventListener('blur', () => {
     if (!state.currentPath && !slugInput.value.trim()) {

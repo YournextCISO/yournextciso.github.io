@@ -70,6 +70,10 @@
           <aside class="admin-sidebar">
             <h3 id="sidebarTitle">DFIRing Posts</h3>
             <button class="btn btn-primary btn-sm" id="newPostBtn" style="width:100%;margin-bottom:0.75rem;">+ New Post</button>
+            <div class="draft-filter" id="draftFilter">
+              <button type="button" data-filter="all" class="active">All</button>
+              <button type="button" data-filter="drafts">Drafts</button>
+            </div>
             <ul class="post-list" id="postList">
               <li class="post-list-empty">Loading…</li>
             </ul>
@@ -133,6 +137,7 @@
 
             <div class="editor-actions">
               <div>
+                <button class="btn" id="draftBtn">Save Draft</button>
                 <button class="btn btn-primary" id="saveBtn">Publish</button>
                 <button class="btn btn-danger" id="deleteBtn" style="display:none;">Delete</button>
               </div>
